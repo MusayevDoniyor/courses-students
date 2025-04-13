@@ -1,5 +1,5 @@
 {
-  "name": "courses-students",
+  "name": "books",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -7,8 +7,6 @@
     "prod": "node server.js"
   },
   "keywords": [
-    "Courses",
-    "Students",
     "PostgreSQL",
     "Api",
     "RelationShips",
@@ -16,7 +14,7 @@
   ],
   "author": "Musayev Doniyor",
   "license": "ISC",
-  "description": "Courses and students api with PostgreSQL",
+  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

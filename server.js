@@ -1,5 +1,11 @@
 require("dotenv").config();
 const app = require("./middleware/app");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+
+const swaggerDoc = YAML.load("./docs/swagger.yml");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.get("/", (req, res) => {
   res.send("Server is working ✅");
@@ -15,6 +21,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`🚀 Server is running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`📄 Swagger is running on http://localhost:${PORT}/api-docs`);
+});

@@ -1,0 +1,333 @@
+openapi: 3.0.1
+info:
+  title: Author Books API
+  description: API for managing books and authors, including fetching books by an author, adding new books, and updating or deleting books.
+  version: 1.0.0
+
+paths:
+  /authors/{id}/books:
+    get:
+      summary: Get all books by an author
+      description: Fetches a list of books by a specific author using the author's ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the author
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of books by the author
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Successful
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 3
+                      books:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            author_id:
+                              type: integer
+                              example: 1
+                            book_title:
+                              type: string
+                              example: "Book Title"
+                            published_year:
+                              type: integer
+                              example: 2020
+                            author_name:
+                              type: string
+                              example: "Author Name"
+                            author_bio:
+                              type: string
+                              example: "Author biography"
+        "404":
+          description: Books are currently unavailable from this author
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+                  error:
+                    type: string
+                    example: Error message
+
+  /books:
+    get:
+      summary: Get all books
+      description: Fetches a list of all books with author details.
+      responses:
+        "200":
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Successful
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 2
+                      books:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            book_id:
+                              type: integer
+                              example: 1
+                            book_title:
+                              type: string
+                              example: "Book Title"
+                            published_year:
+                              type: integer
+                              example: 2020
+                            author_name:
+                              type: string
+                              example: "Author Name"
+                            author_bio:
+                              type: string
+                              example: "Author biography"
+        "404":
+          description: Books are currently unavailable
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+                  error:
+                    type: string
+                    example: Error message
+
+    post:
+      summary: Add a new book
+      description: Adds a new book to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "New Book Title"
+                author_id:
+                  type: integer
+                  example: 1
+                published_year:
+                  type: integer
+                  example: 2021
+      responses:
+        "201":
+          description: Book added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book added successfully
+                  book:
+                    type: object
+                    properties:
+                      book_id:
+                        type: integer
+                        example: 3
+                      book_title:
+                        type: string
+                        example: "New Book Title"
+                      published_year:
+                        type: integer
+                        example: 2021
+                      author_name:
+                        type: string
+                        example: "Author Name"
+                      author_bio:
+                        type: string
+                        example: "Author biography"
+        "400":
+          description: All fields are required
+        "500":
+          description: Internal server error
+
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      description: Fetches a book and its author by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Book details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Successful
+                  data:
+                    type: object
+                    properties:
+                      books:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            book_title:
+                              type: string
+                              example: "Book Title"
+                            published_year:
+                              type: integer
+                              example: 2020
+                            author_name:
+                              type: string
+                              example: "Author Name"
+                            author_bio:
+                              type: string
+                              example: "Author biography"
+        "404":
+          description: Book not found
+        "500":
+          description: Internal server error
+
+    put:
+      summary: Update a book
+      description: Updates the details of a book.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Updated Book Title"
+                author_id:
+                  type: integer
+                  example: 2
+                published_year:
+                  type: integer
+                  example: 2022
+      responses:
+        "200":
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book updated successfully
+                  book:
+                    type: object
+                    properties:
+                      book_id:
+                        type: integer
+                        example: 3
+                      book_title:
+                        type: string
+                        example: "Updated Book Title"
+                      published_year:
+                        type: integer
+                        example: 2022
+                      author_name:
+                        type: string
+                        example: "Updated Author"
+                      author_bio:
+                        type: string
+                        example: "Updated author biography"
+        "400":
+          description: At least one field is required
+        "404":
+          description: Book not found
+        "500":
+          description: Internal server error
+
+    delete:
+      summary: Delete a book
+      description: Deletes a book from the database by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the book to delete
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Book deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book deleted successfully
+                  book:
+                    type: object
+                    properties:
+                      book_id:
+                        type: integer
+                        example: 3
+                      book_title:
+                        type: string
+                        example: "Book Title"
+                      published_year:
+                        type: integer
+                        example: 2020
+                      author_name:
+                        type: string
+                        example: "Author Name"
+                      author_bio:
+                        type: string
+                        example: "Author biography"
+        "404":
+          description: Book not found
+        "500":
+          description: Internal server error
